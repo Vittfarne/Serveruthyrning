@@ -1,38 +1,28 @@
 <?php
 //Settings
+$serverprefix = "TEH WARRiORS | ";
 $renttitle = "TEH WARRiORS UTHYRNINGSSYSTEM";
-$mysql['host'] = "127.0.0.1"; //Enter the Servername or hostname of your database server.
-$mysql['user'] = "serverbokning"; // Enter the username to be used when connecting to the database.
-$mysql['pass'] = "serverbokning"; // Enter the password to be used when connecting to the database.
-$mysql['db'] = "serverbokning"; // Enter the database to be used when connecting to the database.
 $maxservers = 10;
 
-$medlemsgrupp = 1;
-//Denna används för att jämföras med vilken grupp medlemmen är i. Om gruppen stämmer med medlemmen är medlemmen en aktiv medlem.
 
 //SETTINGS END
 //DO NOT EDIT BELOW THIS LINE IF NOT INTENDED!
 
 $error = false;
 
-
 //Få fram medlemsidt för att kolla om personen har bokat en server redan.
 $user_id = 1;
-$membergroup = 1;
 
 //I demomiljön är group 1 medlemsgruppen.
 
 
-
-//Mysql
-$mysqli = new mysqli($mysql['host'],$mysql['user'],$mysql['pass'],$mysql['db']);
-
 //Kolla om medlemmen har en server.
-if ($result = $mysqli->query("SELECT * FROM bokningar WHERE medlemsid = '$user_id'")) {
-    if ($result->num_rows > 0) {
+if ($result = mysql_query("SELECT * FROM bokningar WHERE medlemsid = '$user_id'")) {
+	$antalmedservrar = mysql_num_rows($result);
+    if ($antalmedservrar) {
     	$memberhasserver = 1;
 
-    while ($row = $result->fetch_row()) {
+    while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
     	$server['ip'] = $row[1];
     	$server['name'] = $row[2];
     	$server['losen'] = $row[3];
@@ -40,9 +30,7 @@ if ($result = $mysqli->query("SELECT * FROM bokningar WHERE medlemsid = '$user_i
     	$server['spel'] = $row[5];
     	$server['starttid'] = $row[7];
     	$server['stoptid'] = $row[8];
-    }
-
-
+	}
 
 
     	
@@ -50,7 +38,24 @@ if ($result = $mysqli->query("SELECT * FROM bokningar WHERE medlemsid = '$user_i
     	$memberhasserver = 0;
     }
     /* free result set */
-    $result->close();
+    mysql_free_result($result);
+} else {
+	
+die ('<!doctype html>
+<html lang="sv">
+<head>
+	<meta charset="UTF-8">
+	<title>Boka en server</title>
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<div id="wrapper">
+		<div class="info">
+		<h3 class="error">DATABASFEL!</h2>
+		</div>
+	</div>
+</body>
+</html>');
 }
 ?>
 <!doctype html>
@@ -63,63 +68,83 @@ if ($result = $mysqli->query("SELECT * FROM bokningar WHERE medlemsid = '$user_i
 <body>
 	<div id="wrapper">
 		<h1><?php echo $renttitle; ?></h1>
+		<div class="info">
 	<?php
-
-	//Kolla om personen är medlem.
-	if ($membergroup == $medlemsgrupp) {
-
-
-
-	
-
-
-//Form checks ...
 
 
 //Bokning:
 
 //Först kollar vi om vi ska boka eller avboka servern eller bara visa formuläret.
 if (isset($_POST['boka'])) {
-	//Kollar om man angett fälten Namn, PW och rcon.
-	if (!isset($_POST['namn']) or !isset($_POST['pw']) or !isset($_POST['rcon']) or $_POST['namn'] == "" or $_POST['pw'] == "" or $_POST['rcon'] == "") {
-		//Om användaren "glömt" ange lösen, servernamn eller rcon
-		$error .= "<h3 class=\"error\">Du glömde att ange Servernamn, Lösenord eller Rconlösenord!</h2>";
+	if ($memberhasserver) {
+		critical_error('Du har redan bokat en server!');
 	} else {
-		//Laddar värden från formuläret
-		$servernamn = "TEH WARRiORS | " . $_POST['namn'];
-		$serverlosen = $_POST['pw'];
-		$serverrcon = $_POST['rcon'];
-		$serverspel = $_POST['spel'];
-		
-		//Alla teckenlängder har att göra med databasen, Tabellen innehåller 
-		if (strlen($servernamn) > 30) {
-			//Kollar om servernamet är längre än 30 tecken. (TW.NET inkluderat.)
-			$error .= "<h3 class=\"error\">Servernamnet är för långt!</h2>";
-		} elseif (strlen($serverlosen) > 30) {
-			//Kollar om lösenordet är längre än 30 tecken.
-			$error .= "<h3 class=\"error\">Lösenordet är för långt!</h2>";
-		} elseif (strlen($serverrcon) > 30) {
-			//Kollar om rcon lösenordet är längre än 30 tecken.
-			$error .= "<h3 class=\"error\">Rconlösenordet är för långt!</h2>";
+		//Kollar om man angett fälten Namn, PW och rcon.
+		if (!isset($_POST['namn']) or !isset($_POST['pw']) or !isset($_POST['rcon']) or $_POST['namn'] == "" or $_POST['pw'] == "" or $_POST['rcon'] == "") {
+			//Om användaren "glömt" ange lösen, servernamn eller rcon
+			$error .= "<h3 class=\"error\">Du glömde att ange Servernamn, Lösenord eller Rconlösenord!</h2>";
 		} else {
-			//Om alla fält är "lagom långa"^^
-			echo "<p>Name: " . $servernamn . "<br>Losen: " . $serverlosen . "<br>Rcon: " . $serverrcon . "<br>Spel: " . $serverspel . "</p>";
-			//Kolla portar etc...
-			if ($result = $mysqli->query("SELECT * FROM bokningar")) {
-			    if ($result->num_rows >= $maxservers) {
-			    	$error .= "<h3 class=\"error\">Alla servrar är redan bokade</h3>";
-			    } else {
-			    	//Det finns lediga servrar.
+			//Laddar värden från formuläret
+			$servernamn = $serverprefix . $_POST['namn'];
+			$serverlosen = $_POST['pw'];
+			$serverrcon = $_POST['rcon'];
+			$serverspel = $_POST['spel'];
+
+			switch ($serverspel) {
+				case 'css':
+					$databasspel = "Counter Strike: Source";
+					break;
+				case 'csgo':
+					$databasspel = "Counter Strike: Global Offensive";
+					break;
+				case 'cs16':
+					$databasspel = "Counter Strike 1.6";
+					break;
+				default:
+					$databasspel = false;
+					break;
+			}
+			
+			//Alla teckenlängder har att göra med databasen, Tabellen innehåller 
+			if (strlen($servernamn) > 30) {
+				//Kollar om servernamet är längre än 30 tecken. (TW.NET inkluderat.)
+				$error .= "<h3 class=\"error\">Servernamnet är för långt!</h2>";
+			} elseif (strlen($serverlosen) > 30) {
+				//Kollar om lösenordet är längre än 30 tecken.
+				$error .= "<h3 class=\"error\">Lösenordet är för långt!</h2>";
+			} elseif (strlen($serverrcon) > 30) {
+				//Kollar om rcon lösenordet är längre än 30 tecken.
+				$error .= "<h3 class=\"error\">Rconlösenordet är för långt!</h2>";
+			} elseif (!$databasspel){
+				$error .= "<h3 class=\"error\">Speltypen finns inte! Försöker du göra något dumt eller gjorde du det av misstag? :O</h2>";
+			} else {
+				//Om alla fält är "lagom långa"^^
+				echo "<p>Name: " . $servernamn . "<br>Losen: " . $serverlosen . "<br>Rcon: " . $serverrcon . "<br>Spel: " . $serverspel . "</p>";
+				//Kolla portar etc...
+				if ($result = mysql_query("SELECT * FROM bokningar")) {
+					$antalservrar = mysql_num_rows($result);
+				    if ($antalservrar >= $maxservers) {
+				    	$error .= "<h3 class=\"error\">Alla servrar är redan bokade</h3>";
+				    } else {
+				    	//Det finns lediga servrar.
+
+
+
+				    	//Få IP + port från Ozzzkars script?
+
+
+
+				    	mysql_query("INSERT INTO `serverbokning`.`bokningar` (`id`, `ip`, `namn`, `losen`, `rcon`, `spel`, `medlemsid`, `starttid`, `sluttid`) VALUES (NULL, '123.123.123.123:25612', '$servernamn', '$serverlosen', '$serverrcon', '$serverspel', '$user_id', CURRENT_TIMESTAMP, '0000-00-00 00:00:00');")
 
 
 
 
 
 
-
-			    }
-			    /* free result set */
-			    $result->close();
+				    }
+				    /* free result set */
+				    mysql_free_result($result);
+				}
 			}
 		}
 	}
@@ -129,7 +154,7 @@ if (isset($_POST['boka'])) {
 	if (isset($_POST['pw'])) {$pwvalue = $_POST['pw'];} else {$pwvalue = "";}
 	if (isset($_POST['rcon'])) {$rconvalue = $_POST['rcon'];} else {$rconvalue = "";}
 echo <<<EOD
-	<div class="info">
+	
 	{$error}
 	<form action="" method="POST">
 	<table class="inputs">
@@ -157,7 +182,7 @@ echo <<<EOD
 	</tr>
 		</table>
 	</form>
-	</div>
+	
 EOD;
 
 	}
@@ -170,14 +195,36 @@ EOD;
 
 elseif (isset($_POST['avboka'])) {
 
-	if (memberhasserver) {
+	if ($memberhasserver) {
+		if (mysql_query("DELETE * FROM bokningar WHERE memberid = '$user_id'")) {
+			//Borttagen ur databasen. Server stopscript ska köras.
 
+
+			/*
+				HÄR OSKAR SKA DU ÄNDRA! :)
+
+				OSKAR?
+
+
+
+				OSZKSKAR?
+
+
+				PLZ :D
+
+
+				EDIT :D
+
+
+			*/
+
+		} else {
+			critical_error('Ett fel uppstod vid avbokningen.');
+		}
 
 	} else {
 		critical_error('Du har ingen server att avboka.');
 	}
-
-
 
 
 } else {
@@ -188,7 +235,7 @@ if (!$memberhasserver){
 	if (isset($_POST['pw'])) {$pwvalue = $_POST['pw'];} else {$pwvalue = "";}
 	if (isset($_POST['rcon'])) {$rconvalue = $_POST['rcon'];} else {$rconvalue = "";}
 echo <<<EOD
-	<div class="info">
+	
 	<form action="" method="POST">
 	<table class="inputs">
 	<tr>
@@ -215,12 +262,12 @@ echo <<<EOD
 	</tr>
 		</table>
 	</form>
-	</div>
+	
 EOD;
 } else {
 echo <<<EOD
 	<!-- Visa om server redan är bokad -->
-	<div class="info">
+	
 		<h2>Du har bokat en server.</h2>
 		<p>
 			Servernamn: {$server['name']}<br>
@@ -232,7 +279,7 @@ echo <<<EOD
 			Starttid: {$server['starttid']}<br>
 			Stoptid: {$server['stoptid']}
 		</p>
-	</div>
+	
 	<form action="" method="POST">
 		<input class="submit" type="submit" value="Avboka" name="avboka">
 	</form>
@@ -252,12 +299,10 @@ EOD;
 }
 
 
-} else {
-		//Körs om personen inte är medlem.
-		echo "<p>Du är inte medlem<br>Klicka <a href=\"#\">Här för att bli medlem</a></p>";
-	}
+
 
 ?>
+</div>
 </div>
 </body>
 </html>
