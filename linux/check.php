@@ -32,7 +32,20 @@ if ($result = $mysqli->query("SELECT * FROM bokningar WHERE medlemsid = '$user_i
     if ($result->num_rows > 0) {
     	$memberhasserver = 1;
 
-    	$server['name'] = "a";
+    while ($row = $result->fetch_row()) {
+    	$server['ip'] = $row[1];
+    	$server['name'] = $row[2];
+    	$server['losen'] = $row[3];
+    	$server['rcon'] = $row[4];
+    	$server['spel'] = $row[5];
+    	$server['starttid'] = $row[7];
+    	$server['stoptid'] = $row[8];
+    }
+
+
+
+
+    	
     } else {
     	$memberhasserver = 0;
     }
@@ -157,6 +170,15 @@ EOD;
 
 elseif (isset($_POST['avboka'])) {
 
+	if (memberhasserver) {
+
+
+	} else {
+		critical_error('Du har ingen server att avboka.');
+	}
+
+
+
 
 } else {
 
@@ -201,12 +223,14 @@ echo <<<EOD
 	<div class="info">
 		<h2>Du har bokat en server.</h2>
 		<p>
-			Servernamn: TEH WARRIORS.NET | MIN PCWSERVER<br>
-			IP&amp;Port: 123.132.131.12:27045<br>
-			Console connect: connect 123.132.131.12:27045;password mittpw
-			Serverlösen: mittpw<br>
-			Rconlösen: mittrcon<br>
-			Spel: Counter Strike: Source
+			Servernamn: {$server['name']}<br>
+			IP&amp;Port: {$server['ip']}<br>
+			Console connect: <span class="connectstring">connect {$server['ip']};password {$server['losen']}</span><br>
+			Serverlösen: {$server['losen']}<br>
+			Rconlösen: {$server['rcon']}<br>
+			Spel: {$server['spel']}<br>
+			Starttid: {$server['starttid']}<br>
+			Stoptid: {$server['stoptid']}
 		</p>
 	</div>
 	<form action="" method="POST">
