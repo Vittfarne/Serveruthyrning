@@ -19,9 +19,7 @@ $memberhasserver = 0;
 <head>
 	<meta charset="UTF-8">
 	<title>Boka en server</title>
-	<style>
-	
-	</style>
+	<link rel="stylesheet" href="style.css">
 </head>
 <body>
 	<?php
