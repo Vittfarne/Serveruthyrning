@@ -1,0 +1,1 @@
+Windows implementation is NOT in the works currently, the Linux version is prioritized.
