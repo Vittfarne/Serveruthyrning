@@ -5,7 +5,7 @@ $mysql['host'] = "127.0.0.1"; //Enter the Servername or hostname of your databas
 $mysql['user'] = "serverbokning"; // Enter the username to be used when connecting to the database.
 $mysql['pass'] = "serverbokning"; // Enter the password to be used when connecting to the database.
 $mysql['db'] = "serverbokning"; // Enter the database to be used when connecting to the database.
-
+$maxservers = 10;
 
 $medlemsgrupp = 1;
 //Denna används för att jämföras med vilken grupp medlemmen är i. Om gruppen stämmer med medlemmen är medlemmen en aktiv medlem.
@@ -17,7 +17,7 @@ $error = false;
 
 
 //Få fram medlemsidt för att kolla om personen har bokat en server redan.
-$memberid = 2;
+$user_id = 1;
 $membergroup = 1;
 
 //I demomiljön är group 1 medlemsgruppen.
@@ -28,7 +28,7 @@ $membergroup = 1;
 $mysqli = new mysqli($mysql['host'],$mysql['user'],$mysql['pass'],$mysql['db']);
 
 //Kolla om medlemmen har en server.
-if ($result = $mysqli->query("SELECT * FROM bokningar WHERE medlemsid = '$memberid'")) {
+if ($result = $mysqli->query("SELECT * FROM bokningar WHERE medlemsid = '$user_id'")) {
     if ($result->num_rows > 0) {
     	$memberhasserver = 1;
 
@@ -92,12 +92,27 @@ if (isset($_POST['boka'])) {
 			//Om alla fält är "lagom långa"^^
 			echo "<p>Name: " . $servernamn . "<br>Losen: " . $serverlosen . "<br>Rcon: " . $serverrcon . "<br>Spel: " . $serverspel . "</p>";
 			//Kolla portar etc...
+			if ($result = $mysqli->query("SELECT * FROM bokningar")) {
+			    if ($result->num_rows >= $maxservers) {
+			    	$error .= "<h3 class=\"error\">Alla servrar är redan bokade</h3>";
+			    } else {
+			    	//Det finns lediga servrar.
 
+
+
+
+
+
+
+			    }
+			    /* free result set */
+			    $result->close();
+			}
 		}
 	}
 
 	if ($error) {
-		if (isset($_POST['namn'])) {$namnvalue = $_POST['namn'];} else {$namnvalue = "";}
+	if (isset($_POST['namn'])) {$namnvalue = $_POST['namn'];} else {$namnvalue = "";}
 	if (isset($_POST['pw'])) {$pwvalue = $_POST['pw'];} else {$pwvalue = "";}
 	if (isset($_POST['rcon'])) {$rconvalue = $_POST['rcon'];} else {$rconvalue = "";}
 echo <<<EOD
@@ -196,6 +211,9 @@ echo <<<EOD
 	</div>
 	<form action="" method="POST">
 		<input class="submit" type="submit" value="Avboka" name="avboka">
+	</form>
+	<form action="" method="POST">
+		<input class="submit" type="submit" value="Starta om" name="startaom">
 	</form>
 EOD;
 

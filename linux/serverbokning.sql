@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: May 04, 2014 at 01:20 PM
+-- Generation Time: May 04, 2014 at 08:17 PM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.11
 
@@ -34,6 +34,8 @@ CREATE TABLE IF NOT EXISTS `bokningar` (
   `rcon` varchar(40) NOT NULL,
   `spel` varchar(50) NOT NULL,
   `medlemsid` int(11) NOT NULL,
+  `starttid` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `sluttid` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
@@ -41,8 +43,8 @@ CREATE TABLE IF NOT EXISTS `bokningar` (
 -- Dumping data for table `bokningar`
 --
 
-INSERT INTO `bokningar` (`id`, `ip`, `namn`, `losen`, `rcon`, `spel`, `medlemsid`) VALUES
-(1, '123.123.123.123', 'TEH WARRiORS | asd', 'asdasd', 'asdasd', 'Counter Strike: Global Offensive', 1);
+INSERT INTO `bokningar` (`id`, `ip`, `namn`, `losen`, `rcon`, `spel`, `medlemsid`, `starttid`, `sluttid`) VALUES
+(1, '123.123.123.123', 'TEH WARRiORS | asd', 'asdasd', 'asdasd', 'Counter Strike: Global Offensive', 1, '2014-05-07 18:16:34', '0000-00-00 00:00:00');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
