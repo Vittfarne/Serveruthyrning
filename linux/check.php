@@ -15,7 +15,7 @@ $membergroup = 1;
 //I demomiljön är group 1 medlemsgruppen.
 
 
-$memberhasserver = 0;
+$memberhasserver = 1;
 ?>
 <!doctype html>
 <html lang="sv">
@@ -42,17 +42,17 @@ echo <<<EOD
 	<form action="" method="POST">
 	<table class="inputs">
 	<tr>
-		<td><label for="namn">Servernamn: </label></td><td><input class="text" type="text" id="namn" name="namn" value="{$namnvalue}" placeholder="Namn"></td>
+		<td><label for="namn">Servernamn: </label></td><td class="fullw"><input class="text" type="text" id="namn" name="namn" value="{$namnvalue}" placeholder="Namn"></td>
 	</tr>
 	<tr>
-		<td><label for="pw">Lösenord: </label></td><td><input class="text" type="text" id="pw" name="pw" value="{$pwvalue}" placeholder="Serverlösenord"></td>
+		<td><label for="pw">Lösenord: </label></td><td class="fullw"><input class="text" type="text" id="pw" name="pw" value="{$pwvalue}" placeholder="Serverlösenord"></td>
 	</tr>
 	<tr>
-		<td><label for="rcon">Rconlösen: </label></td><td><input class="text" type="text" id="rcon" name="rcon" value="{$rconvalue}" placeholder="Rconlösenord"></td>
+		<td><label for="rcon">Rconlösen: </label></td><td class="fullw"><input class="text" type="text" id="rcon" name="rcon" value="{$rconvalue}" placeholder="Rconlösenord"></td>
 	</tr>
 	<tr>
 		<td><label for="spel">Spel: </label></td>
-		<td><select name="spel" id="spel" class="option">
+		<td class="fullw"><select name="spel" id="spel" class="option">
 		  <option value="css" name="css">Counter Strike: Source</option> 
 		  <option value="csgo" name="csgo">Counter Strike: Global Offensive</option>
 		  <option value="cs16">Counter Strike: 1.6</option>
@@ -60,7 +60,8 @@ echo <<<EOD
 		</td>
 	</tr>
 	<tr>
-		<td><input type="submit" value="Boka" id="boka" name="boka"></td>
+		<td></td>
+		<td class="fullw"><input class="submit" type="submit" value="Boka" id="boka" name="boka"></td>
 	</tr>
 		</table>
 	</form>
@@ -81,7 +82,7 @@ echo <<<EOD
 		</p>
 	</div>
 	<form action="" method="POST">
-		<input type="submit" value="Avboka" name="avboka">
+		<input class="submit" type="submit" value="Avboka" name="avboka">
 	</form>
 EOD;
 
@@ -89,8 +90,7 @@ EOD;
 
 	} else {
 		//Körs om personen inte är medlem.
-		echo "Du är inte medlem<br>";
-		echo "Klicka <a href=\"#\">Här för att bli medlem</a>";
+		echo "<p>Du är inte medlem<br>Klicka <a href=\"#\">Här för att bli medlem</a></p>";
 	}
 
 
@@ -104,24 +104,24 @@ if (isset($_POST['boka'])) {
 	//Kollar om man angett fälten Namn, PW och rcon.
 	if (!isset($_POST['namn']) or !isset($_POST['pw']) or !isset($_POST['rcon']) or $_POST['namn'] == "" or $_POST['pw'] == "" or $_POST['rcon'] == "") {
 		//Om användaren "glömt" ange lösen, servernamn eller rcon
-		echo "Det verkar som att du glömt att ange Servernamn, Lösenord eller Rcon! Var god försök igen!";
+		echo "<p>Det verkar som att du glömt att ange Servernamn, Lösenord eller Rcon! Var god försök igen!</p>";
 	} else {
 		//Laddar värden från formuläret
 		$servernamn = "TEH WARRiORS | " . $_POST['namn'];
 		$serverlosen = $_POST['pw'];
 		$serverrcon = $_POST['rcon'];
 		$serverspel = $_POST['spel'];
-		echo "Name: " . $servernamn . "<br>Losen: " . $serverlosen . "<br>Rcon: " . $serverrcon . "<br>Spel: " . $serverspel;
+		echo "<p>Name: " . $servernamn . "<br>Losen: " . $serverlosen . "<br>Rcon: " . $serverrcon . "<br>Spel: " . $serverspel . "</p>";
 		//Alla teckenlängder har att göra med databasen, Tabellen innehåller 
 		if (strlen($servernamn) > 30) {
 			//Kollar om servernamet är längre än 30 tecken. (TW.NET inkluderat.)
-			echo "Servernamnet är för långt.";
+			echo "<p>Servernamnet är för långt.</p>";
 		} elseif (strlen($serverlosen) > 30) {
 			//Kollar om lösenordet är längre än 30 tecken.
-			echo "Serverlösenordet är för långt";
+			echo "<p>Serverlösenordet är för långt</p>";
 		} elseif (strlen($serverrcon) > 30) {
 			//Kollar om rcon lösenordet är längre än 30 tecken.
-			echo "Serverrconet är för långt.";
+			echo "<p>Serverrconet är för långt.</p>";
 		}
 	}
 }

@@ -18,11 +18,59 @@ p, form, input.text, option, .option {
 	font-family: 'Source Sans Pro', sans-serif;
 	font-weight: 500;
 	font-size: 15pt;
+	
 }
+
+input.text, option, .option {
+	background: rgba(0,0,0, 0.1);
+	border: 0 none;
+	color: black;
+	font-size: 15pt;
+	line-height: 1.5;
+	text-align: left;
+	border-radius: 5px;
+	padding: 1%;
+	margin-top: 0.5%;
+}
+
+option, .option {
+	width: 100%;
+}
+
+input.text {
+	width: 98%;
+}
+
 
 
 h1 {
 	font-family: 'Open Sans', sans-serif;
 	font-weight: 300;
 	text-align: center;
+}
+
+h2 {
+	font-family: 'Open Sans', sans-serif;
+	font-weight: 300;
+	
+}
+
+.submit {
+	background: rgba(0,0,0, 0.1);
+	border: 0 none;
+	color: black;
+	font-size: 20pt;
+	line-height: 1.5;
+	text-align: left;
+	border-radius: 5px;
+	padding: 1%;
+	margin-top: 0.5%;
+	width: 100%;
+	text-align: center;
+
+}
+
+.fullw {
+	width: 100%;
+
 }
