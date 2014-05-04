@@ -1,9 +1,28 @@
 /*
 STYLE.CSS för serveruthyrningen
 */
+/* FONT IMPORTS (Using // for links to make sure HTTPS is used when needed.) */
+@import url(//fonts.googleapis.com/css?family=Open+Sans:400,300,700,600);
+@import url(//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600);
+
+
 
 #wrapper {
-	margin:0 auto;
+	margin: 0 auto;
 	/* Centrerar innehållswrappern */
+	max-width: 1000px;
 }
 
+
+p, form, input.text, option, .option {
+	font-family: 'Source Sans Pro', sans-serif;
+	font-weight: 500;
+	font-size: 15pt;
+}
+
+
+h1 {
+	font-family: 'Open Sans', sans-serif;
+	font-weight: 300;
+	text-align: center;
+}
