@@ -1,12 +1,15 @@
 <?php
 //Settings
-$renttitle = "TEH WARRiORS RENTING SYSTEM";
+$renttitle = "TEH WARRiORS UTHYRNINGSSYSTEM";
+$mysql['host'] = "127.0.0.1"; //Enter the Servername or hostname of your database server.
+$mysql['user'] = "serverbokning"; // Enter the username to be used when connecting to the database.
+$mysql['pass'] = "serverbokning"; // Enter the password to be used when connecting to the database.
+$mysql['db'] = "serverbokning"; // Enter the database to be used when connecting to the database.
+
 
 $medlemsgrupp = 1;
 //Denna används för att jämföras med vilken grupp medlemmen är i. Om gruppen stämmer med medlemmen är medlemmen en aktiv medlem.
 
-//Mysql
-$mysqli = new mysqli("127.0.0.1","serverbokning","serverbokning","serverbokning");
 
 //Få fram medlemsidt för att kolla om personen har bokat en server redan.
 $memberid = 1;
@@ -15,7 +18,20 @@ $membergroup = 1;
 //I demomiljön är group 1 medlemsgruppen.
 
 
-$memberhasserver = 1;
+
+//Mysql
+$mysqli = new mysqli($mysql['host'],$mysql['user'],$mysql['pass'],$mysql['db']);
+
+//Kolla om medlemmen har en server.
+if ($result = $mysqli->query("SELECT * FROM bokningar WHERE medlemsid = '$memberid'")) {
+    if ($result->num_rows > 0) {
+    	$memberhasserver = 1;
+    } else {
+    	$memberhasserver = 0;
+    }
+    /* free result set */
+    $result->close();
+}
 ?>
 <!doctype html>
 <html lang="sv">
@@ -78,7 +94,7 @@ echo <<<EOD
 			Console connect: connect 123.132.131.12:27045;password mittpw
 			Serverlösen: mittpw<br>
 			Rconlösen: mittrcon<br>
-			Spel: CSS
+			Spel: Counter Strike: Source
 		</p>
 	</div>
 	<form action="" method="POST">
@@ -122,6 +138,9 @@ if (isset($_POST['boka'])) {
 		} elseif (strlen($serverrcon) > 30) {
 			//Kollar om rcon lösenordet är längre än 30 tecken.
 			echo "<p>Serverrconet är för långt.</p>";
+		} else {
+			//Om alla fält är "lagom långa"^^
+
 		}
 	}
 }
