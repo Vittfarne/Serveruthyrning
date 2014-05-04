@@ -1,8 +1,15 @@
 <?php
 
+// style<link rel="stylesheet" href="style.css">
+//Något särskillt sätt att lägga in? filen finns under standalone.
+$db = '`serverbokning`.';
+$table = '`bokningar`';
+$tablerun = $db.$table;
+
 function template_main()
 {
-	global $context, $settings, $options, $txt, $modsettings, $scripturl, $user_profile;
+	global $context, $settings, $options, $txt, $modsettings, $scripturl, $user_profile, $error;
+	$error = false;
 	@loadMemberContext();
 
 	$maxservers = 10; //Maximum amount of servers initiated.
@@ -32,44 +39,30 @@ function template_main()
 	}
 }
 
+
 function critical_error($message)
 {
-	$error = '';
 	$error .= '<h3 class="error">' . $message . '</h3>';
 	echo $error;
 }
 
 function render_page($user_id)
 {
-	echo 'Du är användare nummer ' . $user_id . '.';
-}
+
+	//Settings
+	$serverprefix = "TEH WARRiORS | ";
+	$renttitle = "TEH WARRiORS UTHYRNINGSSYSTEM";
+	$maxservers = 10;
 
 
 
 
 
-//Woops skulle spela go :D Edit in progress ^^
+	//echo 'Du är användare nummer ' . $user_id . '.';
 
-<?php
-//Settings
-$serverprefix = "TEH WARRiORS | ";
-$renttitle = "TEH WARRiORS UTHYRNINGSSYSTEM";
-$maxservers = 10;
-
-
-//SETTINGS END
-//DO NOT EDIT BELOW THIS LINE IF NOT INTENDED!
-
-$error = false;
-
-//Få fram medlemsidt för att kolla om personen har bokat en server redan.
-$user_id = 1;
-
-//I demomiljön är group 1 medlemsgruppen.
-
-
+	
 //Kolla om medlemmen har en server.
-if ($result = mysql_query("SELECT * FROM bokningar WHERE medlemsid = '$user_id'")) {
+if ($result = mysql_query("SELECT * FROM $tablerun WHERE medlemsid = '$user_id'")) {
 	$antalmedservrar = mysql_num_rows($result);
     if ($antalmedservrar) {
     	$memberhasserver = 1;
@@ -93,26 +86,17 @@ if ($result = mysql_query("SELECT * FROM bokningar WHERE medlemsid = '$user_id'"
     mysql_free_result($result);
 } else {
 	
-die ('<!doctype html>
-<html lang="sv">
-<head>
-	<meta charset="UTF-8">
-	<title>Boka en server</title>
-	<link rel="stylesheet" href="style.css">
-</head>
-<body>
-	<div id="wrapper">
+die ('
+<link rel="stylesheet" href="style.css">
 		<div class="info">
 		<h3 class="error">DATABASFEL!</h2>
 		</div>
-	</div>
-</body>
-</html>');
+');
 }
 
-<link rel="stylesheet" href="style.css">
+
 echo "<h1>$renttitle</h1>";
-		echo '<div class="info">';
+echo '<div class="info">';
 
 
 
@@ -178,7 +162,7 @@ if (isset($_POST['boka'])) {
 
 
 
-				    	mysql_query("INSERT INTO `serverbokning`.`bokningar` (`id`, `ip`, `namn`, `losen`, `rcon`, `spel`, `medlemsid`, `starttid`, `sluttid`) VALUES (NULL, '123.123.123.123:25612', '$servernamn', '$serverlosen', '$serverrcon', '$serverspel', '$user_id', CURRENT_TIMESTAMP, '0000-00-00 00:00:00');")
+				    	mysql_query("INSERT INTO $tablerun (`id`, `ip`, `namn`, `losen`, `rcon`, `spel`, `medlemsid`, `starttid`, `sluttid`) VALUES (NULL, '123.123.123.123:25612', '$servernamn', '$serverlosen', '$serverrcon', '$serverspel', '$user_id', CURRENT_TIMESTAMP, '0000-00-00 00:00:00');")
 
 
 
@@ -334,6 +318,12 @@ EOD;
 
 }
 
+}
+
+
+
+
+
 
 
 
@@ -341,6 +331,7 @@ EOD;
 
 
 }
+
 
 
 
