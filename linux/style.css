@@ -42,6 +42,13 @@ input.text {
 }
 
 
+.error {
+	color: red;
+	font-family: 'Open Sans', sans-serif;
+	font-weight: 300;
+	text-align: center;
+}
+
 
 h1 {
 	font-family: 'Open Sans', sans-serif;
