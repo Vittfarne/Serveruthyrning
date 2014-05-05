@@ -248,7 +248,7 @@ if (isset($_POST['boka'])) {
 
 				echo "<p>Name: " . $servernamn . "<br>Losen: " . $serverlosen . "<br>Rcon: " . $serverrcon . "<br>Spel: " . $serverspel . "</p>";
 				//Kolla portar etc...
-				if ($result = mysql_query("SELECT * FROM bokningar")) {
+				if ($result = mysql_query("SELECT * FROM $tablerun")) {
 					$antalservrar = mysql_num_rows($result);
 					mysql_free_result($result);
 				    if ($antalservrar >= $maxservers) {
@@ -266,7 +266,7 @@ if (isset($_POST['boka'])) {
 				    		echo "Databasfel";
 				    	}
 				    }				    
-				}
+				} else {echo "databasfel här ... "};
 			}
 		}
 	}
