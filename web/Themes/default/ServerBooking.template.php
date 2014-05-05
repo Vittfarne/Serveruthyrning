@@ -164,7 +164,7 @@ if (isset($_POST['boka'])) {
 
 
 
-				    	mysql_query("INSERT INTO $tablerun (`id`, `ip`, `namn`, `losen`, `rcon`, `spel`, `medlemsid`, `starttid`, `sluttid`) VALUES (NULL, '123.123.123.123:25612', '$servernamn', '$serverlosen', '$serverrcon', '$serverspel', '$user_id', CURRENT_TIMESTAMP, '0000-00-00 00:00:00');")
+				    	mysql_query("INSERT INTO $tablerun (`id`, `ip`, `namn`, `losen`, `rcon`, `spel`, `medlemsid`, `starttid`, `sluttid`) VALUES (NULL, '123.123.123.123:25612', '$servernamn', '$serverlosen', '$serverrcon', '$serverspel', '$user_id', CURRENT_TIMESTAMP, '0000-00-00 00:00:00')");
 
 				    }
 				    /* free result set */
