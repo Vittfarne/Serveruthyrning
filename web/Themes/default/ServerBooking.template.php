@@ -252,7 +252,7 @@ if (isset($_POST['boka'])) {
 			} else {
 				//Om alla fält är "lagom långa"^^
 				echo "<p>Försöker att boka server med dessa egenskaper ...</p>";
-				echo "<p>Name: " . $dbgame . "<br>Losen: " . $serverpassword . "<br>Rcon: " . $serverrcon . "<br>Spel: " . $srvgametype . "</p>";
+				echo "<p>Name: " . $srvname . "<br>Losen: " . $serverpassword . "<br>Rcon: " . $serverrcon . "<br>Spel: " . $dbgame . "</p>";
 				//Kolla portar etc...
 				if ($result = mysql_query("SELECT * FROM $tablerun")) {
 					$antalservrar = mysql_num_rows($result);
