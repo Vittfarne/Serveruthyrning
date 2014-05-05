@@ -318,7 +318,7 @@ EOD;
 elseif (isset($_POST['avboka'])) {
 
 	if ($memberhasserver) {
-		if (mysql_query("DELETE * FROM $tablerun WHERE memberid = '$user_id'")) {
+		if (mysql_query("DELETE FROM $tablerun WHERE memberid = '$user_id'")) {
 			//Borttagen ur databasen. Server stopscript ska köras.
 
 
