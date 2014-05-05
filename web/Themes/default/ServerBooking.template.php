@@ -245,6 +245,7 @@ if (isset($_POST['boka'])) {
 				//Kolla portar etc...
 				if ($result = mysql_query("SELECT * FROM bokningar")) {
 					$antalservrar = mysql_num_rows($result);
+					mysql_free_result($result);
 				    if ($antalservrar >= $maxservers) {
 				    	$error .= "<h3 class=\"error\">Alla servrar är redan bokade</h3>";
 				    } else {
@@ -254,17 +255,12 @@ if (isset($_POST['boka'])) {
 
 				    	//Få IP + port från Ozzzkars script?
 
-
-
-				    	if (mysql_query("INSERT INTO $tablerun (`id`, `ip`, `namn`, `losen`, `rcon`, `spel`, `medlemsid`, `starttid`, `sluttid`) VALUES (NULL, '123.123.123.123:25612', '$servernamn', '$serverlosen', '$serverrcon', '$serverspel', '$user_id', CURRENT_TIMESTAMP, '0000-00-00 00:00:00')")) {
+				    	if (mysql_query("INSERT INTO $tablerun (ip, namn, losen, rcon, spel, medlemsid, starttid, sluttid) VALUES ('123.123.123.123:25612', '$servernamn', '$serverlosen', '$serverrcon', '$serverspel', '$user_id', CURRENT_TIMESTAMP, '0000-00-00 00:00:00')")) {
 				    		echo "Server bokad";
 				    	} else {
 				    		echo "Databasfel";
 				    	}
-
-				    }
-				    /* free result set */
-				    mysql_free_result($result);
+				    }				    
 				}
 			}
 		}
