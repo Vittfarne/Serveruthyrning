@@ -230,22 +230,22 @@ if (isset($_POST['boka'])) {
 			//Alla teckenlängder har att göra med databasen, Tabellen innehåller 
 			if (strlen($servernamn) > 30) {
 				//Kollar om servernamet är längre än 30 tecken. (TW.NET inkluderat.)
-				$error .= "<h3 class='error'>Servernamnet är för långt!</h2>";
-				echo "Srv";
+				$error .= "<h3 class='error'>Servernamnet är för långt!</h3>";
+				
 			} elseif (strlen($serverlosen) > 30) {
 				//Kollar om lösenordet är längre än 30 tecken.
-				$error .= "<h3 class='error'>Lösenordet är för långt!</h2>";
-				echo "Losn";
+				$error .= "<h3 class='error'>Lösenordet är för långt!</h3>";
+				
 			} elseif (strlen($serverrcon) > 30) {
 				//Kollar om rcon lösenordet är längre än 30 tecken.
-				$error .= "<h3 class='error'>Rconlösenordet är för långt!</h2>";
-				echo "rcon";
+				$error .= "<h3 class='error'>Rconlösenordet är för långt!</h3>";
+				
 			} elseif (!$databasspel){
 				$error .= "<h3 class='error'>Speltypen finns inte! Försöker du göra något dumt eller gjorde du det av misstag? :O</h2>";
-				echo "databasfel";
+				
 			} else {
 				//Om alla fält är "lagom långa"^^
-				
+
 				echo "<p>Name: " . $servernamn . "<br>Losen: " . $serverlosen . "<br>Rcon: " . $serverrcon . "<br>Spel: " . $serverspel . "</p>";
 				//Kolla portar etc...
 				if ($result = mysql_query("SELECT * FROM bokningar")) {
