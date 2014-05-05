@@ -47,9 +47,9 @@ function render_page($user_id)
 
 	// style<link rel="stylesheet" href="style.css">
 	//Något särskillt sätt att lägga in? filen finns under standalone.
-	$db = '`serverbokning`.';
-	$table = '`bokningar`';
-	$tablerun = $db.$table;
+	//$db = '`serverbokning`.';
+	//$table = '`bokningar`';
+	//$tablerun = $db.$table;
 
 	//Settings
 	$serverprefix = "TEH WARRiORS | ";
