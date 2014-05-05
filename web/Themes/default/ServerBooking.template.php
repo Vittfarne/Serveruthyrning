@@ -47,9 +47,9 @@ function render_page($user_id)
 
 	// style<link rel="stylesheet" href="style.css">
 	//Något särskillt sätt att lägga in? filen finns under standalone.
-	//$db = '`serverbokning`.';
-	//$table = '`bokningar`';
-	//$tablerun = $db.$table;
+	$db = '`serverbokning`.';
+	$table = '`bokningar`';
+	$tablerun = $db.$table;
 
 	//Settings
 	$serverprefix = "TEH WARRiORS | ";
@@ -112,7 +112,7 @@ if (isset($_POST['boka'])) {
 		//Kollar om man angett fälten Namn, PW och rcon.
 		if (!isset($_POST['namn']) or !isset($_POST['pw']) or !isset($_POST['rcon']) or $_POST['namn'] == "" or $_POST['pw'] == "" or $_POST['rcon'] == "") {
 			//Om användaren "glömt" ange lösen, servernamn eller rcon
-			$error .= "<h3 class=\"error\">Du glömde att ange Servernamn, Lösenord eller Rconlösenord!</h2>";
+			$error .= "<h3 class='error'>Du glömde att ange Servernamn, Lösenord eller Rconlösenord!</h2>";
 		} else {
 			//Laddar värden från formuläret
 			$servernamn = $serverprefix . $_POST['namn'];
@@ -138,18 +138,18 @@ if (isset($_POST['boka'])) {
 			//Alla teckenlängder har att göra med databasen, Tabellen innehåller 
 			if (strlen($servernamn) > 30) {
 				//Kollar om servernamet är längre än 30 tecken. (TW.NET inkluderat.)
-				$error .= "<h3 class=\"error\">Servernamnet är för långt!</h2>";
+				$error .= "<h3 class='error'>Servernamnet är för långt!</h2>";
 			} elseif (strlen($serverlosen) > 30) {
 				//Kollar om lösenordet är längre än 30 tecken.
-				$error .= "<h3 class=\"error\">Lösenordet är för långt!</h2>";
+				$error .= "<h3 class='error'>Lösenordet är för långt!</h2>";
 			} elseif (strlen($serverrcon) > 30) {
 				//Kollar om rcon lösenordet är längre än 30 tecken.
-				$error .= "<h3 class=\"error\">Rconlösenordet är för långt!</h2>";
+				$error .= "<h3 class='error'>Rconlösenordet är för långt!</h2>";
 			} elseif (!$databasspel){
-				$error .= "<h3 class=\"error\">Speltypen finns inte! Försöker du göra något dumt eller gjorde du det av misstag? :O</h2>";
+				$error .= "<h3 class='error'>Speltypen finns inte! Försöker du göra något dumt eller gjorde du det av misstag? :O</h2>";
 			} else {
 				//Om alla fält är "lagom långa"^^
-				echo "<p>Name: " . $servernamn . "<br>Losen: " . $serverlosen . "<br>Rcon: " . $serverrcon . "<br>Spel: " . $serverspel . "</p>";
+				//echo "<p>Name: " . $servernamn . "<br>Losen: " . $serverlosen . "<br>Rcon: " . $serverrcon . "<br>Spel: " . $serverspel . "</p>";
 				//Kolla portar etc...
 				if ($result = mysql_query("SELECT * FROM bokningar")) {
 					$antalservrar = mysql_num_rows($result);
@@ -321,14 +321,6 @@ EOD;
 }
 
 }
-
-
-
-
-
-
-
-
 
 
 
