@@ -102,7 +102,7 @@ h2 {
 STL;
 	
 
-	$maxservers = 10; //Maximum amount of servers initiated.
+	
 
 	$user_id = $context['user']['id'];
 	@loadMemberData($user_id);
@@ -139,11 +139,8 @@ function critical_error($message)
 function render_page($user_id)
 {
 
-	// style<link rel="stylesheet" href="style.css">
-	//Något särskillt sätt att lägga in? filen finns under standalone.
-	$db = '`serverbokning`.';
-	$table = '`bokningar`';
-	$tablerun = $db.$table;
+	
+	$tablerun = "`serverbokning`.`bokningar`";
 
 	//Settings
 	$serverprefix = "TEH WARRiORS | ";
@@ -259,7 +256,11 @@ if (isset($_POST['boka'])) {
 
 
 
-				    	mysql_query("INSERT INTO $tablerun (`id`, `ip`, `namn`, `losen`, `rcon`, `spel`, `medlemsid`, `starttid`, `sluttid`) VALUES (NULL, '123.123.123.123:25612', '$servernamn', '$serverlosen', '$serverrcon', '$serverspel', '$user_id', CURRENT_TIMESTAMP, '0000-00-00 00:00:00')");
+				    	if (mysql_query("INSERT INTO $tablerun (`id`, `ip`, `namn`, `losen`, `rcon`, `spel`, `medlemsid`, `starttid`, `sluttid`) VALUES (NULL, '123.123.123.123:25612', '$servernamn', '$serverlosen', '$serverrcon', '$serverspel', '$user_id', CURRENT_TIMESTAMP, '0000-00-00 00:00:00')")) {
+				    		echo "Server bokad";
+				    	} else {
+				    		echo "Databasfel";
+				    	}
 
 				    }
 				    /* free result set */
