@@ -346,6 +346,8 @@ elseif (isset($_POST['avboka'])) {
 
 			*/
 
+				echo "<p>Server avbokad, <a href=''>Klicka här för att fortsätta</a>";
+
 		} else {
 			critical_error('Ett fel uppstod vid avbokningen.');
 		}
