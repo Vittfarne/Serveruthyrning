@@ -181,7 +181,7 @@ if ($result = mysql_query("SELECT * FROM $tablerun WHERE memberid = '$user_id'")
 } else {
 	
 die ('
-<link rel="stylesheet" href="style.css">
+
 		<div class="info">
 		<h3 class="error">DATABASFEL!</h2>
 		</div>
@@ -190,7 +190,7 @@ die ('
 
 
 echo "<h1>$renttitle</h1>";
-echo '<div class="info">';
+echo '<div id="wrapper"><div class="info">';
 
 
 
@@ -414,7 +414,7 @@ EOD;
 
 }
 
-
+echo "</div></div>";
 
 }
 
