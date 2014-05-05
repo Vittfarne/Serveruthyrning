@@ -162,13 +162,13 @@ if ($result = mysql_query("SELECT * FROM $tablerun WHERE medlemsid = '$user_id'"
 
     while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
     	
-    	$server['ip'] = $row['ip'];
-    	$server['name'] = $row['namn'];
-    	$server['losen'] = $row['losen'];
-    	$server['rcon'] = $row['rcon'];
-    	$server['spel'] = $row['spel'];
-    	$server['starttid'] = $row['starttid'];
-    	$server['stoptid'] = $row['sluttid'];
+    	$server['host'] = $row['server_address'];
+    	$server['name'] = $row['name'];
+    	$server['server_pw'] = $row['server_password'];
+    	$server['rcon_pw'] = $row['rcon_password'];
+    	$server['gametype'] = $row['gametype'];
+    	$server['starttime'] = $row['starttime'];
+    	$server['stoptime'] = $row['stoptime'];
 	}
 
 
@@ -207,32 +207,32 @@ if (isset($_POST['boka'])) {
 			$error .= "<h3 class='error'>Du glömde att ange Servernamn, Lösenord eller Rconlösenord!</h2>";
 		} else {
 			//Laddar värden från formuläret
-			$servernamn = $serverprefix . $_POST['namn'];
-			$serverlosen = $_POST['pw'];
+			$srvname = $serverprefix . $_POST['namn'];
+			$serverpassword = $_POST['pw'];
 			$serverrcon = $_POST['rcon'];
-			$serverspel = $_POST['spel'];
+			$srvgametype = $_POST['spel'];
 
-			switch ($serverspel) {
+			switch ($srvgametype) {
 				case 'css':
-					$databasspel = "Counter Strike: Source";
+					$dbgame = "Counter Strike: Source";
 					break;
 				case 'csgo':
-					$databasspel = "Counter Strike: Global Offensive";
+					$dbgame = "Counter Strike: Global Offensive";
 					break;
 				case 'cs16':
-					$databasspel = "Counter Strike 1.6";
+					$dbgame = "Counter Strike 1.6";
 					break;
 				default:
-					$databasspel = false;
+					$dbgame = false;
 					break;
 			}
 			
-			//Alla teckenlängder har att göra med databasen, Tabellen innehåller 
-			if (strlen($servernamn) > 30) {
+			//Alla teckenlängder har att göra med databasen
+			if (strlen($srvname) > 30) {
 				//Kollar om servernamet är längre än 30 tecken. (TW.NET inkluderat.)
 				$error .= "<h3 class='error'>Servernamnet är för långt!</h3>";
 				
-			} elseif (strlen($serverlosen) > 30) {
+			} elseif (strlen($serverpassword) > 30) {
 				//Kollar om lösenordet är längre än 30 tecken.
 				$error .= "<h3 class='error'>Lösenordet är för långt!</h3>";
 				
@@ -240,13 +240,13 @@ if (isset($_POST['boka'])) {
 				//Kollar om rcon lösenordet är längre än 30 tecken.
 				$error .= "<h3 class='error'>Rconlösenordet är för långt!</h3>";
 				
-			} elseif (!$databasspel){
+			} elseif (!$dbgame){
 				$error .= "<h3 class='error'>Speltypen finns inte! Försöker du göra något dumt eller gjorde du det av misstag? :O</h2>";
 				
 			} else {
 				//Om alla fält är "lagom långa"^^
-
-				echo "<p>Name: " . $servernamn . "<br>Losen: " . $serverlosen . "<br>Rcon: " . $serverrcon . "<br>Spel: " . $serverspel . "</p>";
+				echo "<p>Försöker att boka server med dessa egenskaper ...</p>";
+				echo "<p>Name: " . $srvname . "<br>Losen: " . $serverpassword . "<br>Rcon: " . $serverrcon . "<br>Spel: " . $srvgametype . "</p>";
 				//Kolla portar etc...
 				if ($result = mysql_query("SELECT * FROM $tablerun")) {
 					$antalservrar = mysql_num_rows($result);
@@ -256,17 +256,17 @@ if (isset($_POST['boka'])) {
 				    } else {
 				    	//Det finns lediga servrar.
 
-				    		echo "Bokning påG.";
+				    		//echo "Bokning påG.";
 
 				    	//Få IP + port från Ozzzkars script?
 
-				    	if (mysql_query("INSERT INTO $tablerun (ip, namn, losen, rcon, spel, medlemsid, starttid, sluttid) VALUES ('123.123.123.123:25612', '$servernamn', '$serverlosen', '$serverrcon', '$serverspel', '$user_id', CURRENT_TIMESTAMP, '0000-00-00 00:00:00')")) {
-				    		echo "Server bokad";
+				    	if (mysql_query("INSERT INTO $tablerun (server_address, name, connect_password, rcon_password, gametype, memberid, starttime, stoptime) VALUES ('123.123.123.123:25612', '$srvname', '$serverpassword', '$serverrcon', '$srvgametype', '$user_id', CURRENT_TIMESTAMP, '0000-00-00 00:00:00')")) {
+				    		echo "<p>Server bokad</p><p><a href=''>Klicka här för att fortsätta</a></p>";
 				    	} else {
 				    		echo "Databasfel";
 				    	}
 				    }				    
-				} else {echo "databasfel här ... ";}
+				}
 			}
 		}
 	}
@@ -318,7 +318,7 @@ EOD;
 elseif (isset($_POST['avboka'])) {
 
 	if ($memberhasserver) {
-		if (mysql_query("DELETE * FROM bokningar WHERE memberid = '$user_id'")) {
+		if (mysql_query("DELETE * FROM $tablerun WHERE memberid = '$user_id'")) {
 			//Borttagen ur databasen. Server stopscript ska köras.
 
 
@@ -393,13 +393,13 @@ echo <<<EOD
 		<h2>Du har bokat en server.</h2>
 		<p>
 			Servernamn: {$server['name']}<br>
-			IP&amp;Port: {$server['ip']}<br>
-			Console connect: <span class="connectstring">connect {$server['ip']};password {$server['losen']}</span><br>
-			Serverlösen: {$server['losen']}<br>
-			Rconlösen: {$server['rcon']}<br>
-			Spel: {$server['spel']}<br>
-			Starttid: {$server['starttid']}<br>
-			Stoptid: {$server['stoptid']}
+			IP&amp;Port: {$server['host']}<br>
+			Console connect: <span class="connectstring">connect {$server['host']};password {$server['server_pw']}</span><br>
+			Serverlösen: {$server['server_pw']}<br>
+			Rconlösen: {$server['rcon_pw']}<br>
+			Spel: {$server['gametype']}<br>
+			Starttid: {$server['starttime']}<br>
+			Stoptid: {$server['stoptime']}
 		</p>
 	
 	<form action="" method="POST">
