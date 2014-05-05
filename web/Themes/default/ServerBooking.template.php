@@ -70,14 +70,14 @@ if ($result = mysql_query("SELECT * FROM $tablerun WHERE medlemsid = '$user_id'"
     	$memberhasserver = 1;
 
     while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
-    	var_dump($row);
-    	$server['ip'] = $row[1];
-    	$server['name'] = $row[2];
-    	$server['losen'] = $row[3];
-    	$server['rcon'] = $row[4];
-    	$server['spel'] = $row[5];
-    	$server['starttid'] = $row[7];
-    	$server['stoptid'] = $row[8];
+    	
+    	$server['ip'] = $row['ip'];
+    	$server['name'] = $row['namn'];
+    	$server['losen'] = $row['losen'];
+    	$server['rcon'] = $row['rcon'];
+    	$server['spel'] = $row['spel'];
+    	$server['starttid'] = $row['starttid'];
+    	$server['stoptid'] = $row['sluttid'];
 	}
 
 
