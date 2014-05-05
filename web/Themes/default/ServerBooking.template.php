@@ -70,6 +70,7 @@ if ($result = mysql_query("SELECT * FROM $tablerun WHERE medlemsid = '$user_id'"
     	$memberhasserver = 1;
 
     while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+    	var_dump($row);
     	$server['ip'] = $row[1];
     	$server['name'] = $row[2];
     	$server['losen'] = $row[3];
