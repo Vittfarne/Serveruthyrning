@@ -266,7 +266,7 @@ if (isset($_POST['boka'])) {
 				    		echo "Databasfel";
 				    	}
 				    }				    
-				} else {echo "databasfel här ... "};
+				} else {echo "databasfel här ... ";}
 			}
 		}
 	}
