@@ -61,14 +61,14 @@ input.text {
 }
 
 
-h1 {
+.rub1 {
 	font-family: 'Open Sans', sans-serif;
 	font-weight: 300;
 	text-align: center;
 	font-size: 30pt;
 }
 
-h2 {
+.rub2 {
 	font-family: 'Open Sans', sans-serif;
 	font-weight: 300;
 	font-size: 25pt;
@@ -195,7 +195,7 @@ die ('
 }
 
 
-echo "<h1>$renttitle</h1>";
+echo "<h1 class='rub1'>$renttitle</h1>";
 echo '<div id="wrapper"><div class="info">';
 
 
@@ -396,7 +396,7 @@ EOD;
 echo <<<EOD
 	<!-- Visa om server redan är bokad -->
 	
-		<h2>Du har bokat en server.</h2>
+		<h2 class='rub2'>Du har bokat en server.</h2>
 		<p>
 			Servernamn: {$server['name']}<br>
 			IP&amp;Port: {$server['host']}<br>
