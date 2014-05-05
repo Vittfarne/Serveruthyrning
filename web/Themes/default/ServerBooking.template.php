@@ -175,6 +175,21 @@ if ($result = mysql_query("SELECT * FROM $tablerun WHERE memberid = '$user_id'")
     	$server['gametype'] = $row['gametype'];
     	$server['starttime'] = $row['starttime'];
     	$server['stoptime'] = $row['stoptime'];
+
+    	switch ($server['gametype']) {
+				case 'css':
+					$server['gametype'] = "Counter Strike: Source";
+					break;
+				case 'csgo':
+					$server['gametype'] = "Counter Strike: Global Offensive";
+					break;
+				case 'cs16':
+					$server['gametype'] = "Counter Strike 1.6";
+					break;
+			}
+
+
+
 	}
 
 
