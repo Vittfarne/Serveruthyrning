@@ -17,9 +17,10 @@ STYLE.CSS för serveruthyrningen
 
 
 #wrapper {
-	margin: 0 auto;
+	margin: 3px;
 	/* Centrerar innehållswrappern */
 	max-width: 1000px;
+
 }
 
 
@@ -99,6 +100,7 @@ h2 {
 	color: lightblue;
 	
 }
+
 
 
 	</style>
