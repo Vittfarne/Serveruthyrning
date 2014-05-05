@@ -1,16 +1,12 @@
 <?php
 
-// style<link rel="stylesheet" href="style.css">
-//Något särskillt sätt att lägga in? filen finns under standalone.
-$db = '`serverbokning`.';
-$table = '`bokningar`';
-$tablerun = $db.$table;
-
 function template_main()
 {
 	global $context, $settings, $options, $txt, $modsettings, $scripturl, $user_profile, $error;
 	$error = false;
 	@loadMemberContext();
+
+	
 
 	$maxservers = 10; //Maximum amount of servers initiated.
 
@@ -48,6 +44,12 @@ function critical_error($message)
 
 function render_page($user_id)
 {
+
+	// style<link rel="stylesheet" href="style.css">
+	//Något särskillt sätt att lägga in? filen finns under standalone.
+	$db = '`serverbokning`.';
+	$table = '`bokningar`';
+	$tablerun = $db.$table;
 
 	//Settings
 	$serverprefix = "TEH WARRiORS | ";
