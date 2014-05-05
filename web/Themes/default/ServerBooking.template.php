@@ -56,6 +56,7 @@ input.text {
 	font-family: 'Open Sans', sans-serif;
 	font-weight: 300;
 	text-align: center;
+	font-size: 20pt;
 }
 
 
@@ -63,11 +64,14 @@ h1 {
 	font-family: 'Open Sans', sans-serif;
 	font-weight: 300;
 	text-align: center;
+	font-size: 30pt;
 }
 
 h2 {
 	font-family: 'Open Sans', sans-serif;
 	font-weight: 300;
+	font-size: 25pt;
+
 	
 }
 
