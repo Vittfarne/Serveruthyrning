@@ -251,7 +251,7 @@ if (isset($_POST['boka'])) {
 				    } else {
 				    	//Det finns lediga servrar.
 
-
+				    		echo "Bokning påG.";
 
 				    	//Få IP + port från Ozzzkars script?
 
