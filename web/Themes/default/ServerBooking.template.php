@@ -5,7 +5,101 @@ function template_main()
 	global $context, $settings, $options, $txt, $modsettings, $scripturl, $user_profile, $error;
 	$error = false;
 	@loadMemberContext();
+	echo <<<STL
+	<style type="text/css">
+	/*
+STYLE.CSS för serveruthyrningen
+*/
+/* FONT IMPORTS (Using // for links to make sure HTTPS is used when needed.) */
+@import url(//fonts.googleapis.com/css?family=Open+Sans:400,300,700,600);
+@import url(//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600);
 
+
+
+#wrapper {
+	margin: 0 auto;
+	/* Centrerar innehållswrappern */
+	max-width: 1000px;
+}
+
+
+p, form, input.text, option, .option {
+	font-family: 'Source Sans Pro', sans-serif;
+	font-weight: 500;
+	font-size: 15pt;
+	
+}
+
+input.text, option, .option {
+	background: rgba(0,0,0, 0.1);
+	border: 0 none;
+	color: black;
+	font-size: 15pt;
+	line-height: 1.5;
+	text-align: left;
+	border-radius: 5px;
+	padding: 1%;
+	margin-top: 0.5%;
+}
+
+option, .option {
+	width: 100%;
+}
+
+input.text {
+	width: 98%;
+}
+
+
+.error {
+	color: red;
+	font-family: 'Open Sans', sans-serif;
+	font-weight: 300;
+	text-align: center;
+}
+
+
+h1 {
+	font-family: 'Open Sans', sans-serif;
+	font-weight: 300;
+	text-align: center;
+}
+
+h2 {
+	font-family: 'Open Sans', sans-serif;
+	font-weight: 300;
+	
+}
+
+.submit {
+	background: rgba(0,0,0, 0.1);
+	border: 0 none;
+	color: black;
+	font-size: 20pt;
+	line-height: 1.5;
+	text-align: left;
+	border-radius: 5px;
+	padding: 1%;
+	margin-top: 0.5%;
+	width: 100%;
+	text-align: center;
+
+}
+
+.fullw {
+	width: 100%;
+
+}
+
+.connectstring {
+	color: lightblue;
+	
+}
+
+
+	</style>
+
+STL;
 	
 
 	$maxservers = 10; //Maximum amount of servers initiated.
