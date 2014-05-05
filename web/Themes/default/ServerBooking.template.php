@@ -155,7 +155,7 @@ function render_page($user_id)
 
 	
 //Kolla om medlemmen har en server.
-if ($result = mysql_query("SELECT * FROM $tablerun WHERE medlemsid = '$user_id'")) {
+if ($result = mysql_query("SELECT * FROM $tablerun WHERE memberid = '$user_id'")) {
 	$antalmedservrar = mysql_num_rows($result);
     if ($antalmedservrar) {
     	$memberhasserver = 1;
